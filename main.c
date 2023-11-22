@@ -98,29 +98,13 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  int i = 25;
-  HAL_Delay(1000);
-
-  int light;
-  void setup() {
-    Serial.begin(9600);
-  }
-
-  void loop() {
-    light = analogRead(A0);
-    Serial.println(light);
-    delay(100);
-  }
-
+HAL_Delay(1000);
+int i = 25;
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-
-
-
 	  if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_RESET){
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
 		  if(i == 124){
