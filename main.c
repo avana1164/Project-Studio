@@ -94,6 +94,14 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  // Lcd_PortType ports[] = { D4_GPIO_Port, D5_GPIO_Port, D6_GPIO_Port, D7_GPIO_Port };
+    Lcd_PortType ports[] = { GPIOC, GPIOB, GPIOA, GPIOA };
+    // Lcd_PinType pins[] = {D4_Pin, D5_Pin, D6_Pin, D7_Pin};
+    Lcd_PinType pins[] = {GPIO_PIN_7, GPIO_PIN_6, GPIO_PIN_7, GPIO_PIN_6};
+    Lcd_HandleTypeDef lcd;
+    // Lcd_create(ports, pins, RS_GPIO_Port, RS_Pin, EN_GPIO_Port, EN_Pin, LCD_4_BIT_MODE);
+    lcd = Lcd_create(ports, pins, GPIOB, GPIO_PIN_5, GPIOB, GPIO_PIN_4, LCD_4_BIT_MODE);
+    Lcd_cursor(&lcd, 0,1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,31 +114,31 @@ int prev = i;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//	  HAL_ADC_Start(&hadc1);
-//	  if(HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK){
-//		  analog_value = HAL_ADC_GetValue(&hadc1);
-//	  }
-//	  HAL_ADC_Stop(&hadc1);
-//	  Lcd_cursor(&lcd, 1,7);
-//	  Lcd_int(&lcd, analog_value);
-	  //HAL_Delay (1000);
+  HAL_ADC_Start(&hadc1);
+  if(HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK){
+	  analog_value = HAL_ADC_GetValue(&hadc1);
+  }
+  HAL_ADC_Stop(&hadc1);
+  Lcd_cursor(&lcd, 1,7);
+  Lcd_int(&lcd, analog_value);
+  //HAL_Delay (1000);
 
-	  if(i >= 125){
-		  prev = i;
-		  i-=5;
-	  } else if(i <= 25){
-		  prev = i;
-		  i+=5;
-	  }
-	  htim2.Instance->CCR1 = i;
-	if(prev<=i){
-		prev = i;
-		i+=5;
-	} else if(i < prev){
-		prev = i;
-		i-=5;
-	}
-	  HAL_Delay(10);
+  if(i >= 125){
+	  prev = i;
+	  i-=5;
+  } else if(i <= 25){
+	  prev = i;
+	  i+=5;
+  }
+  htim2.Instance->CCR1 = i;
+if(prev<=i){
+	prev = i;
+	i+=5;
+} else if(i < prev){
+	prev = i;
+	i-=5;
+}
+  HAL_Delay(10);
 
   }
   HAL_Delay(1000);
