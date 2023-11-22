@@ -100,28 +100,37 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 HAL_Delay(1000);
 int i = 25;
+int prev = i;
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_RESET){
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-		  if(i == 124){
-			  i = 25;
-		  }
-		  //HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0);
+//	  HAL_ADC_Start(&hadc1);
+//	  if(HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK){
+//		  analog_value = HAL_ADC_GetValue(&hadc1);
+//	  }
+//	  HAL_ADC_Stop(&hadc1);
+//	  Lcd_cursor(&lcd, 1,7);
+//	  Lcd_int(&lcd, analog_value);
+	  //HAL_Delay (1000);
 
-	  } else {
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-	  }
-
-	  if(i < 125){
-		  i+=10;
+	  if(i >= 125){
+		  prev = i;
+		  i-=5;
+	  } else if(i <= 25){
+		  prev = i;
+		  i+=5;
 	  }
 	  htim2.Instance->CCR1 = i;
-
-	  HAL_Delay(100);
+	if(prev<=i){
+		prev = i;
+		i+=5;
+	} else if(i < prev){
+		prev = i;
+		i-=5;
+	}
+	  HAL_Delay(10);
 
   }
   HAL_Delay(1000);
